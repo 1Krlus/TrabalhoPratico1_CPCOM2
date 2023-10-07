@@ -244,14 +244,38 @@ public class MedicoView extends javax.swing.JFrame {
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
         // TODO add your handling code here:
 
-        if (medicoController.create(jTextFieldNome.getText(), jFormattedTextFieldCpf.getText(), jTextFieldEndereco.getText(),
-                jFormattedTextFieldTelefone.getText(), jTextFieldCrm.getText(), jTextFieldEspecialidade.getText())) {
-            JOptionPane.showMessageDialog(this, "Cadastrado com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(this, "Não foi possível realizar o cadastro!");
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja adicionar este novo médico ao sistema?",
+                "Confirmação de adição!", JOptionPane.YES_NO_CANCEL_OPTION);
 
-            this.listaMedicos();
+        if (confirma == JOptionPane.YES_OPTION) {
+            if (jTextFieldNome.getText().isEmpty() || jTextFieldEndereco.getText().isEmpty() || jTextFieldEspecialidade.getText().isEmpty()
+                    || jTextFieldCrm.getText().isEmpty() || jFormattedTextFieldCpf.getText().isEmpty() || jFormattedTextFieldTelefone.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro: Informações Incompletas", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (medicoController.create(jTextFieldNome.getText(), jFormattedTextFieldCpf.getText(), jTextFieldEndereco.getText(),
+                        jFormattedTextFieldTelefone.getText(), jTextFieldCrm.getText(), jTextFieldEspecialidade.getText())) {
+                    JOptionPane.showMessageDialog(this, "Cadastrado com sucesso!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Não foi possível realizar o cadastro!", "Erro ao realizar o cadastro!", JOptionPane.ERROR_MESSAGE);
+                }
+
+                jTextFieldCrm.setText("");
+                jTextFieldEndereco.setText("");
+                jTextFieldEspecialidade.setText("");
+                jTextFieldNome.setText("");
+                jFormattedTextFieldCpf.setText("");
+                jFormattedTextFieldTelefone.setText("");
+            }
+        } else if (confirma == JOptionPane.CANCEL_OPTION) {
+            jTextFieldCrm.setText("");
+            jTextFieldEndereco.setText("");
+            jTextFieldEspecialidade.setText("");
+            jTextFieldNome.setText("");
+            jFormattedTextFieldCpf.setText("");
+            jFormattedTextFieldTelefone.setText("");
         }
+
+        this.listaMedicos();
     }//GEN-LAST:event_jButtonAdicionarActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -276,18 +300,43 @@ public class MedicoView extends javax.swing.JFrame {
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
         // TODO add your handling code here:
 
-        if (jTableMedicos.getSelectedRow() != -1) {
-            medicoController.update(
-                    (int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0),
-                    jTextFieldNome.getText(),
-                    jFormattedTextFieldCpf.getText(),
-                    jTextFieldEndereco.getText(),
-                    jFormattedTextFieldTelefone.getText(),
-                    jTextFieldCrm.getText(),
-                    jTextFieldEspecialidade.getText()
-            );
-            this.listaMedicos();
-            
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados deste médico no sistema ?",
+                "Confirmação de atualização!", JOptionPane.YES_NO_CANCEL_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            if (jTextFieldNome.getText().isEmpty() || jTextFieldEndereco.getText().isEmpty() || jTextFieldEspecialidade.getText().isEmpty()
+                    || jTextFieldCrm.getText().isEmpty() || jFormattedTextFieldCpf.getText().isEmpty() || jFormattedTextFieldTelefone.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro: Informações Incompletas", JOptionPane.ERROR_MESSAGE);
+
+            } else {
+                if (jTableMedicos.getSelectedRow() != -1) {
+                    medicoController.update(
+                            (int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0),
+                            jTextFieldNome.getText(),
+                            jFormattedTextFieldCpf.getText(),
+                            jTextFieldEndereco.getText(),
+                            jFormattedTextFieldTelefone.getText(),
+                            jTextFieldCrm.getText(),
+                            jTextFieldEspecialidade.getText()
+                    );
+
+                    this.listaMedicos();
+
+                    JOptionPane.showMessageDialog(this, "Os dados foram atualizados com sucesso!",
+                            "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                    jTextFieldNome.setText("");
+                    jFormattedTextFieldCpf.setText("");
+                    jTextFieldEndereco.setText("");
+                    jFormattedTextFieldTelefone.setText("");
+                    jTextFieldCrm.setText("");
+                    jTextFieldEspecialidade.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Selecione um médico para atualizar os dados!",
+                            "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else if (confirma == JOptionPane.CANCEL_OPTION) {
             jTextFieldNome.setText("");
             jFormattedTextFieldCpf.setText("");
             jTextFieldEndereco.setText("");
@@ -299,31 +348,46 @@ public class MedicoView extends javax.swing.JFrame {
 
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
         // TODO add your handling code here:
-        
-        if (jTableMedicos.getSelectedRow() != -1) {
-            medicoController.delete((int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0));
-            
-            this.listaMedicos();
-            
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja remover este médico do sistema?", "Alerta de exclusão!", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            if (jTableMedicos.getSelectedRow() != -1) {
+                medicoController.delete((int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0));
+
+                this.listaMedicos();
+
+                JOptionPane.showMessageDialog(this, "O médico foi removido do sistema com sucesso!",
+                        "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                jTextFieldNome.setText("");
+                jTextFieldCrm.setText("");
+                jTextFieldEndereco.setText("");
+                jTextFieldEspecialidade.setText("");
+                jFormattedTextFieldCpf.setText("");
+                jFormattedTextFieldTelefone.setText("");
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um medico para excluir!", 
+                        "Nenhum médico foi selecionado!", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
             jTextFieldNome.setText("");
             jTextFieldCrm.setText("");
             jTextFieldEndereco.setText("");
             jTextFieldEspecialidade.setText("");
             jFormattedTextFieldCpf.setText("");
             jFormattedTextFieldTelefone.setText("");
-        } else {
-            JOptionPane.showMessageDialog(null, "Selecione um medico para excluir!");
         }
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
-        
+
         DefaultTableModel tabelaMedicos = (DefaultTableModel) jTableMedicos.getModel();
         tabelaMedicos.setNumRows(0);
-        
+
         for (Medico m : medicoController.search(jTextFieldBuscar.getText())) {
-            tabelaMedicos.addRow(new Object[] {
+            tabelaMedicos.addRow(new Object[]{
                 m.getIdMedico(),
                 m.getNome(),
                 m.getCpf(),

@@ -28,7 +28,7 @@ public class MedicoController {
         return medicoDAO.create(medico);
     }
 
-    public boolean update(int idMedico, String nome, String cpf, String endereco, String telefone, String crm, String especialidade) {
+    public boolean update(int idMedico,String nome, String cpf, String endereco, String telefone, String crm, String especialidade) {
         Medico medico = new Medico();
         
         medico.setIdMedico(idMedico);
