@@ -22,7 +22,12 @@ public class PlanoSaude {
         this.nome = nome;
         this.cnpj = cnpj;
     }
-
+    
+    @Override
+    public String toString() {
+        return this.getNome();
+    }
+    
     public int getIdPlanoSaude() {
         return idPlanoSaude;
     }

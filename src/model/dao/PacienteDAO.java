@@ -10,9 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.bean.Paciente;
+import model.bean.PlanoSaude;
 
 public class PacienteDAO {
 
@@ -25,7 +24,7 @@ public class PacienteDAO {
     public boolean create(Paciente paciente) {
         PreparedStatement stmt = null;
 
-        String sql = "INSERT INTO paciente (nome, cpf, endereco, telefone, datanascimento, idplanosaude) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO paciente (nome, cpf, endereco, telefone, datanascimento, idplanosaude) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             stmt = connect.prepareStatement(sql);
@@ -34,7 +33,7 @@ public class PacienteDAO {
             stmt.setString(3, paciente.getEndereco());
             stmt.setString(4, paciente.getTelefone());
             stmt.setString(5, paciente.getDataNascimento());
-            stmt.setInt(6, paciente.getIdPlanoSaude());
+            stmt.setInt(6, paciente.getPlanoSaude().getIdPlanoSaude());
             
             stmt.executeUpdate();
             
@@ -53,7 +52,14 @@ public class PacienteDAO {
         
         ArrayList<Paciente> listaPacientes = new ArrayList<>();
         
-        String sql = "SELECT * FROM paciente ORDER BY idpaciente";
+        String sql = "SELECT paciente.idpaciente AS pid, "
+                + "paciente.nome AS pnome, "
+                + "paciente.cpf AS pcpf, "
+                + "paciente.endereco AS pendereco, "
+                + "paciente.telefone AS pfone, "
+                + "paciente.datanascimento AS pdtnasc, "
+                + "planosaude.idplanosaude AS psid "
+                + "FROM paciente INNER JOIN planosaude ON planosaude.idplanosaude = paciente.idplanosaude";
         
         try {
             stmt = connect.prepareStatement(sql);
@@ -61,13 +67,16 @@ public class PacienteDAO {
             
             while (rs.next()) {
                 Paciente paciente = new Paciente();
-                paciente.setIdPaciente(rs.getInt("idpaciente"));
-                paciente.setNome(rs.getString("nome"));
-                paciente.setCpf(rs.getString("cpf"));
-                paciente.setEndereco(rs.getString("endereco"));
-                paciente.setTelefone(rs.getString("telefone"));
-                paciente.setDataNascimento(rs.getString("datanascimento"));
-                paciente.setIdPlanoSaude(rs.getInt("idplanosaude"));
+                paciente.setIdPaciente(rs.getInt("pid"));
+                paciente.setNome(rs.getString("pnome"));
+                paciente.setCpf(rs.getString("pcpf"));
+                paciente.setEndereco(rs.getString("pendereco"));
+                paciente.setTelefone(rs.getString("pfone"));
+                paciente.setDataNascimento(rs.getString("pdtnasc"));
+                
+                PlanoSaude pSaude = new PlanoSaude();
+                pSaude.setIdPlanoSaude(rs.getInt("psid"));
+                paciente.setPlanoSaude(pSaude);
                 
                 listaPacientes.add(paciente);
             }
@@ -92,7 +101,7 @@ public class PacienteDAO {
             stmt.setString(3, paciente.getEndereco());
             stmt.setString(4, paciente.getTelefone());
             stmt.setString(5, paciente.getDataNascimento());
-            stmt.setInt(6, paciente.getIdPlanoSaude());
+            stmt.setInt(6, paciente.getPlanoSaude().getIdPlanoSaude());
             stmt.setInt(7, paciente.getIdPaciente());
             
             stmt.executeUpdate();

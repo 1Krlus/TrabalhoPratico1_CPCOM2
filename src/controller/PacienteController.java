@@ -4,10 +4,55 @@
  */
 package controller;
 
+import java.util.ArrayList;
+import model.bean.Paciente;
+import model.bean.PlanoSaude;
+import model.dao.PacienteDAO;
+
 /**
  *
  * @author Carlos
  */
 public class PacienteController {
+
+    public boolean create(String nome, String cpf, String endereco, String telefone, String dataNascimento,
+            PlanoSaude planoSaude) {
+        Paciente paciente = new Paciente();
+        paciente.setNome(nome);
+        paciente.setCpf(cpf);
+        paciente.setEndereco(endereco);
+        paciente.setTelefone(telefone);
+        paciente.setDataNascimento(dataNascimento);
+        paciente.setPlanoSaude(planoSaude);
+
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.create(paciente);
+    }
+
+    public ArrayList<Paciente> read() {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.read();
+    }
+
+    public boolean update(int idPaciente, String nome, String endereco, String telefone, String dataNascimento,
+            PlanoSaude planoSaude) {
+        Paciente paciente = new Paciente();
+        paciente.setIdPaciente(idPaciente);
+        paciente.setNome(nome);
+        paciente.setEndereco(endereco);
+        paciente.setTelefone(telefone);
+        paciente.setDataNascimento(dataNascimento);
+        paciente.setPlanoSaude(planoSaude);
+
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.update(paciente);
+    }
     
+    public boolean delete(int idPaciente) {
+        Paciente paciente = new Paciente();
+        paciente.setIdPaciente(idPaciente);
+        
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.delete(paciente);
+    }
 }

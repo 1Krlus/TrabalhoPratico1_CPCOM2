@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model.bean;
+
 import model.bean.PlanoSaude;
 
 /**
@@ -10,19 +11,18 @@ import model.bean.PlanoSaude;
  * @author Carlos
  */
 public class Paciente extends Pessoa {
+
     int idPaciente;
     String dataNascimento;
     private PlanoSaude planoSaude;
-    private int idPlanoSaude;
-    
+
     public Paciente() {
-        
+
     }
-    
-    public Paciente(int idPaciente, String nome, String cpf, String endereco, String telefone, String dataNascimento, PlanoSaude planoSaude, int idPlanoSaude) {
-        this.idPaciente = idPaciente;
+
+    public Paciente(String nome, String cpf, String endereco, String telefone, String dataNascimento, PlanoSaude planoSaude) {
         this.nome = nome;
-        this.cpf  = cpf;
+        this.cpf = cpf;
         this.endereco = endereco;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
@@ -43,21 +43,13 @@ public class Paciente extends Pessoa {
 
     public void setPlanoSaude(PlanoSaude planoSaude) {
         this.planoSaude = planoSaude;
-    }    
-
+    }
+    
     public int getIdPaciente() {
         return idPaciente;
     }
 
     public void setIdPaciente(int idPaciente) {
         this.idPaciente = idPaciente;
-    }
-
-    public int getIdPlanoSaude() {
-        return idPlanoSaude;
-    }
-
-    public void setIdPlanoSaude(int idPlanoSaude) {
-        this.idPlanoSaude = idPlanoSaude;
     }
 }
