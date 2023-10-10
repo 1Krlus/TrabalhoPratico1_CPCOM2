@@ -143,7 +143,7 @@ public class MedicoDAO {
 
         ArrayList<Medico> listaMedicos = new ArrayList<>();
 
-        String sql = "SELECT * FROM medico WHERE nome LIKE ? ORDER by idmedico";
+        String sql = "SELECT * FROM medico WHERE nome LIKE ? ORDER BY idmedico";
 
         try {
             stmt = connect.prepareCall(sql);
@@ -152,14 +152,14 @@ public class MedicoDAO {
 
             while (rs.next()) {
                 Medico medico = new Medico();
-                 medico.setIdMedico(rs.getInt("idmedico"));
+                medico.setIdMedico(rs.getInt("idmedico"));
                 medico.setNome(rs.getString("nome"));
                 medico.setCpf(rs.getString("cpf"));
                 medico.setEndereco(rs.getString("endereco"));
                 medico.setTelefone(rs.getString("telefone"));
                 medico.setCrm(rs.getString("crm"));
                 medico.setEspecialidade(rs.getString("especialidade"));
-                
+
                 listaMedicos.add(medico);
             }
         } catch (SQLException ex) {

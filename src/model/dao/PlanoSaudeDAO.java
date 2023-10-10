@@ -83,7 +83,7 @@ public class PlanoSaudeDAO {
 
             stmt.setString(1, pSaude.getNome());
             stmt.setString(2, pSaude.getCnpj());
-            stmt.setInt(3, pSaude.getIdPlanoSaude());
+            stmt.setInt(3, pSaude.getidPlanoSaude());
 
             stmt.executeUpdate();
 
@@ -100,12 +100,12 @@ public class PlanoSaudeDAO {
     public boolean delete(PlanoSaude pSaude) {
         Connection connect = connection.ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-
+        
         String sql = "DELETE FROM planosaude WHERE idplanosaude = ?";
 
         try {
             stmt = connect.prepareStatement(sql);
-            stmt.setInt(1, pSaude.getIdPlanoSaude());
+            stmt.setInt(1, pSaude.getidPlanoSaude());
 
             stmt.executeUpdate();
 

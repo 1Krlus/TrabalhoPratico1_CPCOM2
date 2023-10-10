@@ -34,11 +34,12 @@ public class PacienteController {
         return pacienteDAO.read();
     }
 
-    public boolean update(int idPaciente, String nome, String endereco, String telefone, String dataNascimento,
+    public boolean update(int idPaciente, String nome, String cpf, String endereco, String telefone, String dataNascimento,
             PlanoSaude planoSaude) {
         Paciente paciente = new Paciente();
         paciente.setIdPaciente(idPaciente);
         paciente.setNome(nome);
+        paciente.setCpf(cpf);
         paciente.setEndereco(endereco);
         paciente.setTelefone(telefone);
         paciente.setDataNascimento(dataNascimento);
@@ -54,5 +55,10 @@ public class PacienteController {
         
         PacienteDAO pacienteDAO = new PacienteDAO();
         return pacienteDAO.delete(paciente);
+    }
+    
+    public ArrayList<Paciente> search(String nome) {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.search(nome);
     }
 }

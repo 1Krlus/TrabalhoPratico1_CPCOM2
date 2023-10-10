@@ -362,7 +362,7 @@ public class MedicoView extends javax.swing.JFrame {
                 jFormattedTextFieldCpf.setText("");
                 jFormattedTextFieldTelefone.setText("");
             } else {
-                JOptionPane.showMessageDialog(null, "Selecione um medico para excluir!", 
+                JOptionPane.showMessageDialog(null, "Selecione um medico para remover do sistema!", 
                         "Nenhum médico foi selecionado!", JOptionPane.ERROR_MESSAGE);
             }
         } else {

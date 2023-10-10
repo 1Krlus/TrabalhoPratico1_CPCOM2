@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.bean.Paciente;
 import model.bean.PlanoSaude;
 
@@ -33,7 +36,7 @@ public class PacienteDAO {
             stmt.setString(3, paciente.getEndereco());
             stmt.setString(4, paciente.getTelefone());
             stmt.setString(5, paciente.getDataNascimento());
-            stmt.setInt(6, paciente.getPlanoSaude().getIdPlanoSaude());
+            stmt.setString(6, paciente.getPlanoSaude().getNome());
             
             stmt.executeUpdate();
             
@@ -58,8 +61,9 @@ public class PacienteDAO {
                 + "paciente.endereco AS pendereco, "
                 + "paciente.telefone AS pfone, "
                 + "paciente.datanascimento AS pdtnasc, "
-                + "planosaude.idplanosaude AS psid "
-                + "FROM paciente INNER JOIN planosaude ON planosaude.idplanosaude = paciente.idplanosaude";
+                + "planosaude.nome AS psnome "
+                + "FROM paciente INNER JOIN planosaude ON planosaude.idplanosaude = paciente.idplanosaude "
+                + "ORDER BY pid";
         
         try {
             stmt = connect.prepareStatement(sql);
@@ -75,7 +79,7 @@ public class PacienteDAO {
                 paciente.setDataNascimento(rs.getString("pdtnasc"));
                 
                 PlanoSaude pSaude = new PlanoSaude();
-                pSaude.setIdPlanoSaude(rs.getInt("psid"));
+                pSaude.setNome(rs.getString("psnome"));
                 paciente.setPlanoSaude(pSaude);
                 
                 listaPacientes.add(paciente);
@@ -91,7 +95,7 @@ public class PacienteDAO {
     public boolean update(Paciente paciente) {
         PreparedStatement stmt = null;
         
-        String sql = "UPDATE paciente SET nome = ?, cpf = ?, endereco = ?, telefone = ?, datanascimento = ?, idplanosaude = ? WHERE idpaciente = ?";
+        String sql = "UPDATE paciente SET nome = ?, cpf = ?, endereco = ?, telefone = ?, datanascimento = ?, planosaude = ? WHERE idpaciente = ?";
         
         try {
             stmt = connect.prepareStatement(sql);
@@ -101,7 +105,7 @@ public class PacienteDAO {
             stmt.setString(3, paciente.getEndereco());
             stmt.setString(4, paciente.getTelefone());
             stmt.setString(5, paciente.getDataNascimento());
-            stmt.setInt(6, paciente.getPlanoSaude().getIdPlanoSaude());
+            stmt.setString(6, paciente.getPlanoSaude().getNome());
             stmt.setInt(7, paciente.getIdPaciente());
             
             stmt.executeUpdate();
@@ -136,5 +140,42 @@ public class PacienteDAO {
         } finally {
             ConnectionFactory.closeConnection(connect, stmt);
         }
+    }
+    
+    public ArrayList<Paciente> search(String nome) {
+        Connection connect = connection.ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        ArrayList<Paciente> listaPacientes = new ArrayList<>();
+        
+        String sql = "SELECT * FROM paciente WHERE nome LIKE ? ORDER BY idpaciente";
+        
+        try {
+            stmt = connect.prepareCall(sql);
+            stmt.setString(1, "%" + nome + "%");
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Paciente paciente = new Paciente();
+                PlanoSaude pSaude = new PlanoSaude();
+                paciente.setIdPaciente(rs.getInt("idpaciente"));
+                paciente.setNome(rs.getString("nome"));
+                paciente.setCpf(rs.getString("cpf"));
+                paciente.setEndereco(rs.getString("endereco"));
+                paciente.setTelefone(rs.getString("telefone"));
+                paciente.setDataNascimento(rs.getString("datanascimento"));
+              
+                pSaude.setNome(rs.getString("nome"));
+                paciente.setPlanoSaude(pSaude);
+                
+                listaPacientes.add(paciente);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao ler pacientes!", "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ConnectionFactory.closeConnection(connect, stmt, rs);
+        }
+        return listaPacientes;
     }
 }

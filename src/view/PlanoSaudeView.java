@@ -188,7 +188,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
         
         if (confirma == JOptionPane.YES_OPTION) {
             if (jTextFieldNome.getText().isEmpty() || jFormattedTextFieldCNPJ.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro: Informações incompletas!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro: Informações incompletas!", JOptionPane.WARNING_MESSAGE);
             } else {
                 if (pSaudeController.create(jTextFieldNome.getText().trim(), jFormattedTextFieldCNPJ.getText())) {
                         JOptionPane.showMessageDialog(this, "Cadastrado com sucesso!");
@@ -293,7 +293,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
         
         for (PlanoSaude ps : pSaudeController.search(jTextFieldBuscar.getText())) {
             tabelaPSaude.addRow(new Object[] {
-                ps.getIdPlanoSaude(),
+                ps.getidPlanoSaude(),
                 ps.getNome(),
                 ps.getCnpj(),
             });
@@ -306,7 +306,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
         
         for (PlanoSaude ps : pSaudeController.read()) {
             tabelaPSaude.addRow(new Object[]{
-                ps.getIdPlanoSaude(),
+                ps.getidPlanoSaude(),
                 ps.getNome(),
                 ps.getCnpj()
             });

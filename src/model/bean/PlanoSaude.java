@@ -28,7 +28,7 @@ public class PlanoSaude {
         return this.getNome();
     }
     
-    public int getIdPlanoSaude() {
+    public int getidPlanoSaude() {
         return idPlanoSaude;
     }
 
