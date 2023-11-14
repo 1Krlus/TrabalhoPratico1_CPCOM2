@@ -88,6 +88,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
             }
         });
 
+        jButtonAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-adicionar-24.png"))); // NOI18N
         jButtonAdicionar.setText("Adicionar");
         jButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +96,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
             }
         });
 
+        jButtonAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-atualizar-24.png"))); // NOI18N
         jButtonAtualizar.setText("Atualizar");
         jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +104,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
             }
         });
 
+        jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-excluir-24.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,7 +137,7 @@ public class PlanoSaudeView extends javax.swing.JFrame {
                                 .addComponent(jButtonBuscar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonAdicionar)
-                                .addGap(142, 142, 142)
+                                .addGap(102, 102, 102)
                                 .addComponent(jButtonAtualizar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonExcluir))
@@ -170,9 +173,9 @@ public class PlanoSaudeView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdicionar)
-                    .addComponent(jButtonAtualizar)
-                    .addComponent(jButtonExcluir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
         );

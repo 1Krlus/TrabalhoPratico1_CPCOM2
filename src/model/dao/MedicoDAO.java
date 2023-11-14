@@ -11,8 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,7 +29,8 @@ public class MedicoDAO {
 
         PreparedStatement stmt = null;
 
-        String sql = "INSERT INTO medico (nome, cpf, endereco, telefone, crm, especialidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO medico (nome, cpf, endereco, telefone, crm,"
+                + " especialidade) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             stmt = connect.prepareStatement(sql);
@@ -68,7 +67,6 @@ public class MedicoDAO {
 
             while (rs.next()) {
                 Medico medico = new Medico();
-                medico.setIdMedico(rs.getInt("idmedico"));
                 medico.setNome(rs.getString("nome"));
                 medico.setCpf(rs.getString("cpf"));
                 medico.setEndereco(rs.getString("endereco"));
@@ -89,7 +87,8 @@ public class MedicoDAO {
     public boolean update(Medico medico) {
         PreparedStatement stmt = null;
 
-        String sql = "UPDATE medico SET   nome = ?, cpf = ?, endereco = ?, telefone = ?, crm = ?, especialidade = ? WHERE idmedico = ?";
+        String sql = "UPDATE medico SET   nome = ?, cpf = ?, endereco = ?,"
+                + " telefone = ?, crm = ?, especialidade = ? WHERE idmedico = ?";
 
         try {
             stmt = connect.prepareStatement(sql);
@@ -136,8 +135,7 @@ public class MedicoDAO {
         }
     }
 
-    public ArrayList<Medico> search(String nome) {
-        Connection connect = connection.ConnectionFactory.getConnection();
+    public ArrayList<Medico> searchMedicoNome(String nome) {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -146,13 +144,12 @@ public class MedicoDAO {
         String sql = "SELECT * FROM medico WHERE nome LIKE ? ORDER BY idmedico";
 
         try {
-            stmt = connect.prepareCall(sql);
+            stmt = connect.prepareStatement(sql);
             stmt.setString(1, "%" + nome + "%");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Medico medico = new Medico();
-                medico.setIdMedico(rs.getInt("idmedico"));
                 medico.setNome(rs.getString("nome"));
                 medico.setCpf(rs.getString("cpf"));
                 medico.setEndereco(rs.getString("endereco"));
@@ -163,7 +160,76 @@ public class MedicoDAO {
                 listaMedicos.add(medico);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao ler medicos: ", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao ler medicos: ",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ConnectionFactory.closeConnection(connect, stmt, rs);
+        }
+        return listaMedicos;
+    }
+    
+    public ArrayList<Medico> searchMedicoCPF(String cpf) {
+        Connection connect = connection.ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        ArrayList<Medico> listaMedicos = new ArrayList<>();
+
+        String sql = "SELECT * FROM medico WHERE cpf = ? ORDER BY idmedico";
+
+        try {
+            stmt = connect.prepareCall(sql);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Medico medico = new Medico();
+                medico.setNome(rs.getString("nome"));
+                medico.setCpf(rs.getString("cpf"));
+                medico.setEndereco(rs.getString("endereco"));
+                medico.setTelefone(rs.getString("telefone"));
+                medico.setCrm(rs.getString("crm"));
+                medico.setEspecialidade(rs.getString("especialidade"));
+
+                listaMedicos.add(medico);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao ler medicos: ",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            ConnectionFactory.closeConnection(connect, stmt, rs);
+        }
+        return listaMedicos;
+    }
+    
+    public ArrayList<Medico> searchMedicoCRM(String crm) {
+        Connection connect = connection.ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        ArrayList<Medico> listaMedicos = new ArrayList<>();
+
+        String sql = "SELECT * FROM medico WHERE crm = ? ORDER BY idmedico";
+
+        try {
+            stmt = connect.prepareCall(sql);
+            stmt.setString(1, crm);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Medico medico = new Medico();
+                medico.setNome(rs.getString("nome"));
+                medico.setCpf(rs.getString("cpf"));
+                medico.setEndereco(rs.getString("endereco"));
+                medico.setTelefone(rs.getString("telefone"));
+                medico.setCrm(rs.getString("crm"));
+                medico.setEspecialidade(rs.getString("especialidade"));
+
+                listaMedicos.add(medico);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao ler medicos: ",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
         } finally {
             ConnectionFactory.closeConnection(connect, stmt, rs);
         }

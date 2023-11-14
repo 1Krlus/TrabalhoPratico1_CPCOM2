@@ -57,8 +57,13 @@ public class PacienteController {
         return pacienteDAO.delete(paciente);
     }
     
-    public ArrayList<Paciente> search(String nome) {
+    public ArrayList<Paciente> searchPacienteNome(String nome) {
         PacienteDAO pacienteDAO = new PacienteDAO();
-        return pacienteDAO.search(nome);
+        return pacienteDAO.searchPacienteNome(nome);
+    }
+    
+    public ArrayList<Paciente> searchPacienteCPF(String cpf) {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+        return pacienteDAO.searchPacienteCPF(cpf);
     }
 }

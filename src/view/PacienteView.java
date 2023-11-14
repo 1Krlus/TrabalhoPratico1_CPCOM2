@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Paciente;
 import model.bean.PlanoSaude;
+import tablemodel.PacienteTableModel;
 
 /**
  *
@@ -17,11 +18,11 @@ import model.bean.PlanoSaude;
  */
 public class PacienteView extends javax.swing.JFrame {
 
+    PacienteTableModel tableModel;
     PacienteController pacienteController = new PacienteController();
 
     public PacienteView() {
         initComponents();
-        DefaultTableModel tabelaPacientes = (DefaultTableModel) jTablePacientes.getModel();
     }
 
     /**
@@ -49,10 +50,10 @@ public class PacienteView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePacientes = new javax.swing.JTable();
         jTextFieldBuscar = new javax.swing.JTextField();
-        jButtonBuscar = new javax.swing.JButton();
         jButtonAdicionar = new javax.swing.JButton();
         jButtonAtualizar = new javax.swing.JButton();
         jButtonRemover = new javax.swing.JButton();
+        jComboBoxBuscar = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -80,7 +81,7 @@ public class PacienteView extends javax.swing.JFrame {
         }
 
         try {
-            jFormattedTextFieldFone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
+            jFormattedTextFieldFone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -98,11 +99,11 @@ public class PacienteView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nome", "CPF", "endereco", "Telefone", "Data de Nascimento", "Plano de Saúde"
+                "Nome", "CPF", "endereco", "Telefone", "Data de Nascimento", "Plano de Saúde"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -116,13 +117,13 @@ public class PacienteView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTablePacientes);
 
-        jButtonBuscar.setText("Buscar");
-        jButtonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscarActionPerformed(evt);
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyTyped(evt);
             }
         });
 
+        jButtonAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-adicionar-24.png"))); // NOI18N
         jButtonAdicionar.setText("Adicionar");
         jButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,6 +131,7 @@ public class PacienteView extends javax.swing.JFrame {
             }
         });
 
+        jButtonAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-atualizar-24.png"))); // NOI18N
         jButtonAtualizar.setText("Atualizar");
         jButtonAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,12 +139,15 @@ public class PacienteView extends javax.swing.JFrame {
             }
         });
 
+        jButtonRemover.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-excluir-24.png"))); // NOI18N
         jButtonRemover.setText("Remover");
         jButtonRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonRemoverActionPerformed(evt);
             }
         });
+
+        jComboBoxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Nome", "CPF" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,16 +187,16 @@ public class PacienteView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonAdicionar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(159, 159, 159)
                                 .addComponent(jButtonAtualizar)
-                                .addGap(206, 206, 206)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonRemover)
                                 .addGap(99, 99, 99))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextFieldBuscar)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonBuscar))
-                            .addComponent(jComboBoxPlanos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jComboBoxPlanos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBoxBuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -228,13 +233,13 @@ public class PacienteView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonBuscar))
+                    .addComponent(jComboBoxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdicionar)
                     .addComponent(jButtonAtualizar)
                     .addComponent(jButtonRemover))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -244,20 +249,8 @@ public class PacienteView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void listaPacientes() {
-        DefaultTableModel tabelaPacientes = (DefaultTableModel) jTablePacientes.getModel();
-        tabelaPacientes.setNumRows(0);
-
-        for (Paciente p : pacienteController.read()) {
-            tabelaPacientes.addRow(new Object[]{
-                p.getIdPaciente(),
-                p.getNome(),
-                p.getCpf(),
-                p.getEndereco(),
-                p.getTelefone(),
-                p.getDataNascimento(),
-                p.getPlanoSaude().getNome()
-            });
-        }
+        tableModel = new PacienteTableModel(pacienteController.read());
+        jTablePacientes.setModel(tableModel);
     }
 
     public void listaPlanos() {
@@ -282,9 +275,14 @@ public class PacienteView extends javax.swing.JFrame {
                 "Confirmação de adição!", JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
-            if (jTextFieldNome.getText().isEmpty() || jTextFieldEndereco.getText().isEmpty() || jFormattedTextFieldCPF.getText().isEmpty()
-                    || jFormattedTextFieldDtNasc.getText().isEmpty() || jFormattedTextFieldFone.getText().isEmpty() || jComboBoxPlanos.getSelectedItem().equals("")) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos", "Erro: Informações Incompletas!", JOptionPane.WARNING_MESSAGE);
+            if (jTextFieldNome.getText().isEmpty() 
+                    || jTextFieldEndereco.getText().isEmpty() 
+                    || jFormattedTextFieldCPF.getText().equals("   .   .   -  ")
+                    || jFormattedTextFieldDtNasc.getText().equals("  /  /    ") 
+                    || jFormattedTextFieldFone.getText().equals("(  )     -    ") 
+                    || jComboBoxPlanos.getSelectedItem().equals("")) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos",
+                        "Erro: Informações Incompletas!", JOptionPane.WARNING_MESSAGE);
             } else {
                 if (jComboBoxPlanos.getSelectedItem() != null
                         && !jTextFieldNome.getText().equals("")
@@ -295,11 +293,19 @@ public class PacienteView extends javax.swing.JFrame {
 
                     PlanoSaude pSaude = (PlanoSaude) jComboBoxPlanos.getSelectedItem();
 
-                    if (pacienteController.create(jTextFieldNome.getText(), jFormattedTextFieldCPF.getText(), jTextFieldEndereco.getText(),
-                            jFormattedTextFieldFone.getText(), jFormattedTextFieldDtNasc.getText(), pSaude)) {
-                        JOptionPane.showMessageDialog(this, "Cadastrado com sucesso!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                    if (pacienteController.create(jTextFieldNome.getText(),
+                            jFormattedTextFieldCPF.getText(),
+                            jTextFieldEndereco.getText(),
+                            jFormattedTextFieldFone.getText(),
+                            jFormattedTextFieldDtNasc.getText(),
+                            pSaude)) {
+                        JOptionPane.showMessageDialog(this, 
+                                "Cadastrado com sucesso!", "Sucesso!",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Não foi possível realizar o cadastro!", "Erro ao realizar o cadastro!",
+                        JOptionPane.showMessageDialog(this,
+                                "Não foi possível realizar o cadastro!", 
+                                "Erro ao realizar o cadastro!",
                                 JOptionPane.ERROR_MESSAGE);
                     }
 
@@ -327,12 +333,12 @@ public class PacienteView extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (jTablePacientes.getSelectedRow() != -1) {
-            jTextFieldNome.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 1));
-            jFormattedTextFieldCPF.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 2));
-            jTextFieldEndereco.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 3));
-            jFormattedTextFieldFone.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 4));
-            jFormattedTextFieldDtNasc.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 5));
-            String plano = (String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 6);
+            jTextFieldNome.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 0));
+            jFormattedTextFieldCPF.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 1));
+            jTextFieldEndereco.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 2));
+            jFormattedTextFieldFone.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 3));
+            jFormattedTextFieldDtNasc.setText((String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 4));
+            String plano = (String) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 5);
 
             for (int i = 0; i < jComboBoxPlanos.getItemCount(); i++) {
                 PlanoSaude ps = (PlanoSaude) jComboBoxPlanos.getItemAt(i);
@@ -348,18 +354,26 @@ public class PacienteView extends javax.swing.JFrame {
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
         // TODO add your handling code here:
 
-        int confirma = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados deste paciente no sistema ?",
+        int confirma = JOptionPane.showConfirmDialog(null,
+                "Deseja atualizar os dados deste paciente no sistema ?",
                 "Confirmação de atualização!", JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
-            if (jTextFieldNome.getText().isEmpty() || jTextFieldEndereco.getText().isEmpty()
-                    || jFormattedTextFieldCPF.getText().isEmpty() || jFormattedTextFieldDtNasc.getText().isEmpty() || jFormattedTextFieldFone.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Erro: Informações incompletas!", JOptionPane.WARNING_MESSAGE);
+            if (jTextFieldNome.getText().isEmpty()
+                    || jTextFieldEndereco.getText().isEmpty()
+                    || jFormattedTextFieldCPF.getText().equals("   .   .   -  ")
+                    || jFormattedTextFieldDtNasc.getText().equals("  /  /    ")
+                    || jFormattedTextFieldFone.getText().equals("(  )     -    ")) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!",
+                        "Erro: Informações incompletas!", JOptionPane.WARNING_MESSAGE);
             } else {
                 if (jTablePacientes.getSelectedRow() != -1) {
                     PlanoSaude pSaude = (PlanoSaude) jComboBoxPlanos.getSelectedItem();
+                    Paciente paciente = new Paciente();
+                    
+                    paciente = tableModel.getPaciente(jTablePacientes.getSelectedRow());
                     pacienteController.update(
-                            (int) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 0),
+                            paciente.getIdPaciente(),
                             jTextFieldNome.getText(),
                             jFormattedTextFieldCPF.getText(),
                             jTextFieldEndereco.getText(),
@@ -370,7 +384,8 @@ public class PacienteView extends javax.swing.JFrame {
 
                     this.listaPacientes();
 
-                    JOptionPane.showMessageDialog(this, "Os dados foram atualizados com sucesso!",
+                    JOptionPane.showMessageDialog(this,
+                            "Os dados foram atualizados com sucesso!",
                             "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
                     jTextFieldNome.setText("");
@@ -379,7 +394,8 @@ public class PacienteView extends javax.swing.JFrame {
                     jFormattedTextFieldDtNasc.setText("");
                     jFormattedTextFieldFone.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Selecione um paciente para atualizar os dados!",
+                    JOptionPane.showMessageDialog(this,
+                            "Selecione um paciente para atualizar os dados!",
                             "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -395,16 +411,20 @@ public class PacienteView extends javax.swing.JFrame {
     private void jButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoverActionPerformed
         // TODO add your handling code here:
 
-        int confirma = JOptionPane.showConfirmDialog(null, "Deseja remover este paciente do sistema?",
+        int confirma = JOptionPane.showConfirmDialog(null,
+                "Deseja remover este paciente do sistema?",
                 "Confirmação de exclusão!", JOptionPane.YES_NO_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
             if (jTablePacientes.getSelectedRow() != -1) {
-                pacienteController.delete((int) jTablePacientes.getValueAt(jTablePacientes.getSelectedRow(), 0));
+                Paciente paciente = new Paciente();
+                paciente = tableModel.getPaciente(jTablePacientes.getSelectedRow());
+                pacienteController.delete(paciente.getIdPaciente());
 
                 this.listaPacientes();
 
-                JOptionPane.showMessageDialog(this, "O paciente foi removido do sistema com sucesso!",
+                JOptionPane.showMessageDialog(this,
+                        "O paciente foi removido do sistema com sucesso!",
                         "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
                 jTextFieldNome.setText("");
@@ -413,7 +433,8 @@ public class PacienteView extends javax.swing.JFrame {
                 jFormattedTextFieldDtNasc.setText("");
                 jFormattedTextFieldFone.setText("");
             } else {
-                JOptionPane.showMessageDialog(this, "Selecione um paciente para remover do sistema!",
+                JOptionPane.showMessageDialog(this,
+                        "Selecione um paciente para remover do sistema!",
                         "Nenhum paciente foi selecionado!", JOptionPane.ERROR_MESSAGE);
             }
         } else {
@@ -425,24 +446,25 @@ public class PacienteView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonRemoverActionPerformed
 
-    private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
+    private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
         // TODO add your handling code here:
-
-        DefaultTableModel tabelaPacientes = (DefaultTableModel) jTablePacientes.getModel();
-        tabelaPacientes.setNumRows(0);
-
-        for (Paciente p : pacienteController.search(jTextFieldBuscar.getText())) {
-            tabelaPacientes.addRow(new Object[]{
-                p.getIdPaciente(),
-                p.getNome(),
-                p.getCpf(),
-                p.getEndereco(),
-                p.getTelefone(),
-                p.getDataNascimento(),
-                p.getPlanoSaude()
-            });
+        
+        String chave = jTextFieldBuscar.getText();
+        
+        if (evt.getKeyChar() != '\b') {
+            chave = chave + evt.getKeyChar();
         }
-    }//GEN-LAST:event_jButtonBuscarActionPerformed
+        
+        switch (jComboBoxBuscar.getSelectedIndex()) {
+            case 1:
+                tableModel = new PacienteTableModel(pacienteController.searchPacienteNome(chave));
+                break;
+            case 2:
+                tableModel = new PacienteTableModel(pacienteController.searchPacienteCPF(chave));
+                break;
+        }
+        jTablePacientes.setModel(tableModel);
+    }//GEN-LAST:event_jTextFieldBuscarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -482,8 +504,8 @@ public class PacienteView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAtualizar;
-    private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonRemover;
+    private javax.swing.JComboBox<String> jComboBoxBuscar;
     private javax.swing.JComboBox<Object> jComboBoxPlanos;
     private javax.swing.JFormattedTextField jFormattedTextFieldCPF;
     private javax.swing.JFormattedTextField jFormattedTextFieldDtNasc;

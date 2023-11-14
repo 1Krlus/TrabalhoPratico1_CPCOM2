@@ -57,8 +57,18 @@ public class MedicoController {
         return medicoDAO.delete(medico);
     }
     
-    public ArrayList<Medico> search(String nome) {
+    public ArrayList<Medico> searchMedicoNome(String nome) {
         MedicoDAO medicoDAO = new MedicoDAO();
-        return medicoDAO.search(nome);
+        return medicoDAO.searchMedicoNome(nome);
     }
-}
+    
+    public ArrayList<Medico> searchMedicoCPF(String cpf) {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.searchMedicoCPF(cpf);
+    }
+    
+    public ArrayList<Medico> searchMedicoCRM(String crm) {
+        MedicoDAO medicoDAO = new MedicoDAO();
+        return medicoDAO.searchMedicoCRM(crm);
+    }
+} 

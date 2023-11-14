@@ -4,8 +4,6 @@
  */
 package connection;
 import java.sql.Connection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
