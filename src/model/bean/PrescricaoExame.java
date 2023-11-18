@@ -9,10 +9,19 @@ package model.bean;
  * @author Carlos
  */
 public class PrescricaoExame {
+    int idPrescricao;
     String data;
     private Paciente paciente;
     private Medico medico;
     double valorTotal;
+
+    public int getIdPrescricao() {
+        return idPrescricao;
+    }
+
+    public void setIdPrescricao(int idPrescricao) {
+        this.idPrescricao = idPrescricao;
+    }
 
     public String getData() {
         return data;

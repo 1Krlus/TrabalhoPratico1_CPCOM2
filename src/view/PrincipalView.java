@@ -98,12 +98,16 @@ public class PrincipalView extends javax.swing.JFrame {
     private void jMenuItemCadastroMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroMedicosActionPerformed
         // TODO add your handling code here:
         
-        MedicoView medicoView = new MedicoView();
+        this.dispose();
+        
+        MedicoView medicoView = new MedicoView(null);
         medicoView.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadastroMedicosActionPerformed
 
     private void jMenuItemCadastroPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroPacientesActionPerformed
         // TODO add your handling code here:
+        
+        this.dispose();
         
         PacienteView pacienteView = new PacienteView();
         pacienteView.setVisible(true);
@@ -111,6 +115,8 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void jMenuItemCadastroPSaudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroPSaudeActionPerformed
         // TODO add your handling code here:
+        
+        this.dispose();
         
         PlanoSaudeView pSaudeView = new PlanoSaudeView();
         pSaudeView.setVisible(true);
