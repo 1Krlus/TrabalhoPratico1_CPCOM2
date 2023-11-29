@@ -7,6 +7,7 @@ package view;
 import controller.MedicoController;
 import javax.swing.JOptionPane;
 import model.bean.Medico;
+import regularexpression.ValidaCampos;
 import tablemodel.MedicoTableModel;
 
 /**
@@ -18,34 +19,13 @@ public class MedicoView extends javax.swing.JFrame {
     private boolean alterar = false;
     private int idMedico = 0;
     private Medico medico;
-    
-    MedicoTableModel tableModel; // remover
+
+    MedicoTableModel tableModel;
     MedicoController medicoController = new MedicoController();
 
     public MedicoView(Medico medico) {
         initComponents();
-        
-        if (medico != null) {
-            preencheCampos(medico);
-            this.medico = medico;
-        } else {
-            jTextFieldNome.requestFocus();
-        }
-    }
-    
-    private void preencheCampos(Medico medico) {
-        this.idMedico = medico.getIdMedico();
-        jTextFieldNome.setText(medico.getNome());
-        jTextFieldEspecialidade.setText(medico.getEspecialidade());
-        jTextFieldEndereco.setText(medico.getEndereco());
-        jTextFieldCrm.setText(medico.getCrm());
-        jFormattedTextFieldCpf.setText(medico.getCpf());
-        jFormattedTextFieldTelefone.setText(medico.getTelefone());
-        jButtonAdicionar.setEnabled(false);
-        jButtonAtualizar.setEnabled(true);
-        jButtonRemover.setEnabled(true);
-        jButtonSair.setEnabled(true);
-        this.alterar = true;
+
     }
 
     /**
@@ -58,10 +38,7 @@ public class MedicoView extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableMedicos = new javax.swing.JTable();
         jPanelCadastro = new javax.swing.JPanel();
-        jComboBoxBuscar = new javax.swing.JComboBox<>();
         jTextFieldCrm = new javax.swing.JTextField();
         jTextFieldEspecialidade = new javax.swing.JTextField();
         jFormattedTextFieldCpf = new javax.swing.JFormattedTextField();
@@ -73,13 +50,19 @@ public class MedicoView extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
-        jTextFieldBuscar = new javax.swing.JTextField();
         jTextFieldEndereco = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jButtonAdicionar = new javax.swing.JButton();
         jButtonRemover = new javax.swing.JButton();
         jButtonAtualizar = new javax.swing.JButton();
         jButtonSair = new javax.swing.JButton();
+        jButtonRegistro = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jComboBoxOpcoes = new javax.swing.JComboBox<>();
+        jTextFieldBuscar = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableMedicos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,40 +71,11 @@ public class MedicoView extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/medico24px.png"))); // NOI18N
         jLabel1.setText("Cadastro de Médicos");
 
-        jTableMedicos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTableMedicos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Nome", "CPF", "Endereço", "Telefone", "CRM", "Especialidade"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTableMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableMedicosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableMedicos);
-
         jPanelCadastro.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        jComboBoxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Nome", "CPF", "CRM" }));
-        jComboBoxBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxBuscarActionPerformed(evt);
-            }
-        });
 
         try {
             jFormattedTextFieldCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -147,12 +101,6 @@ public class MedicoView extends javax.swing.JFrame {
 
         jLabel7.setText("Especialidade:");
 
-        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jTextFieldBuscarKeyTyped(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelCadastroLayout = new javax.swing.GroupLayout(jPanelCadastro);
         jPanelCadastro.setLayout(jPanelCadastroLayout);
         jPanelCadastroLayout.setHorizontalGroup(
@@ -160,10 +108,6 @@ public class MedicoView extends javax.swing.JFrame {
             .addGroup(jPanelCadastroLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelCadastroLayout.createSequentialGroup()
-                        .addComponent(jComboBoxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldBuscar))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelCadastroLayout.createSequentialGroup()
                         .addGap(197, 197, 197)
                         .addComponent(jLabel7)
@@ -188,7 +132,7 @@ public class MedicoView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jFormattedTextFieldCpf, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)))
+                        .addComponent(jFormattedTextFieldCpf)))
                 .addContainerGap())
         );
         jPanelCadastroLayout.setVerticalGroup(
@@ -212,10 +156,6 @@ public class MedicoView extends javax.swing.JFrame {
                     .addComponent(jTextFieldCrm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jTextFieldEspecialidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -253,6 +193,14 @@ public class MedicoView extends javax.swing.JFrame {
             }
         });
 
+        jButtonRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/impressora.png"))); // NOI18N
+        jButtonRegistro.setText("Imprimir");
+        jButtonRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRegistroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -260,11 +208,13 @@ public class MedicoView extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonAdicionar)
-                .addGap(118, 118, 118)
+                .addGap(65, 65, 65)
                 .addComponent(jButtonAtualizar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
                 .addComponent(jButtonRemover)
-                .addGap(118, 118, 118)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addComponent(jButtonRegistro)
+                .addGap(65, 65, 65)
                 .addComponent(jButtonSair)
                 .addContainerGap())
         );
@@ -276,9 +226,67 @@ public class MedicoView extends javax.swing.JFrame {
                     .addComponent(jButtonAdicionar)
                     .addComponent(jButtonRemover)
                     .addComponent(jButtonAtualizar)
-                    .addComponent(jButtonSair))
+                    .addComponent(jButtonSair)
+                    .addComponent(jButtonRegistro))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel8.setText("Buscar por:");
+
+        jComboBoxOpcoes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Nome", "CPF", "CRM" }));
+        jComboBoxOpcoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxOpcoesActionPerformed(evt);
+            }
+        });
+
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBoxOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jComboBoxOpcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTableMedicos.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jTableMedicos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jTableMedicos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMedicosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableMedicos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -287,27 +295,30 @@ public class MedicoView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(325, 325, 325)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanelCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(jLabel1)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(30, 30, 30)
                 .addComponent(jPanelCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -315,17 +326,58 @@ public class MedicoView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void listaMedicos() {
+    public boolean validaCampos() {
+        if (!ValidaCampos.validaNome(jTextFieldNome.getText())) {
+            JOptionPane.showMessageDialog(this, "Nome Inválido!");
+            return false;
+        }
+
+        if (!ValidaCampos.validaCpf(jFormattedTextFieldCpf.getText())) {
+            JOptionPane.showMessageDialog(this, "CPF inválido");
+            return false;
+        }
+
+        if (!ValidaCampos.validaEndereco(jTextFieldEndereco.getText())) {
+            JOptionPane.showMessageDialog(this, "Endereço Inválido");
+            return false;
+        }
+
+        if (!ValidaCampos.validaTelefone(jFormattedTextFieldTelefone.getText())) {
+            JOptionPane.showMessageDialog(this, "Telegone Inválido!");
+            return false;
+        }
+
+        if (!ValidaCampos.validaCrm(jTextFieldCrm.getText())) {
+            JOptionPane.showMessageDialog(this, "CRM Inválido!");
+        }
+
+        if (!ValidaCampos.validaEspecialidade(jTextFieldEspecialidade.getText())) {
+            JOptionPane.showMessageDialog(this, "Especialidade Inválida");
+        }
+
+        return true;
+    }
+
+    private void listaMedicos() {
         tableModel = new MedicoTableModel(medicoController.read());
         jTableMedicos.setModel(tableModel);
+    }
+
+    private void limpaCampos() {
+        jTextFieldNome.setText("");
+        jFormattedTextFieldCpf.setText("");
+        jTextFieldEndereco.setText("");
+        jFormattedTextFieldTelefone.setText("");
+        jTextFieldCrm.setText("");
+        jTextFieldEspecialidade.setText("");
     }
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarActionPerformed
         // TODO add your handling code here:
 
         int confirma = JOptionPane.showConfirmDialog(null,
-                "Deseja adicionar este novo médico ao sistema?",
-                "Confirmação de adição!",
+                "Deseja registrar este novo médico ao sistema?",
+                "Confirmação de registro com sucesso!",
                 JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
@@ -355,50 +407,19 @@ public class MedicoView extends javax.swing.JFrame {
                             JOptionPane.ERROR_MESSAGE);
                 }
 
-                jTextFieldCrm.setText("");
-                jTextFieldEndereco.setText("");
-                jTextFieldEspecialidade.setText("");
-                jTextFieldNome.setText("");
-                jFormattedTextFieldCpf.setText("");
-                jFormattedTextFieldTelefone.setText("");
+                this.limpaCampos();
             }
         } else if (confirma == JOptionPane.CANCEL_OPTION) {
-            jTextFieldCrm.setText("");
-            jTextFieldEndereco.setText("");
-            jTextFieldEspecialidade.setText("");
-            jTextFieldNome.setText("");
-            jFormattedTextFieldCpf.setText("");
-            jFormattedTextFieldTelefone.setText("");
+            this.limpaCampos();
         }
-
-        this.listaMedicos();
     }//GEN-LAST:event_jButtonAdicionarActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
-
-        this.listaMedicos();
-    }//GEN-LAST:event_formWindowOpened
-
-    private void jTableMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedicosMouseClicked
-        // TODO add your handling code here:
-
-        if (jTableMedicos.getSelectedRow() != -1) {
-            jTextFieldNome.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0));
-            jFormattedTextFieldCpf.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 1));
-            jTextFieldEndereco.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 2));
-            jFormattedTextFieldTelefone.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 3));
-            jTextFieldCrm.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 4));
-            jTextFieldEspecialidade.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 5));
-        }
-    }//GEN-LAST:event_jTableMedicosMouseClicked
 
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarActionPerformed
         // TODO add your handling code here:
 
         int confirma = JOptionPane.showConfirmDialog(null,
-                "Deseja atualizar os dados deste médico no sistema ?",
-                "Confirmação de atualização!",
+                "Deseja atualizar o registro deste médico no sistema ?",
+                "Confirmação de atualização do registro!",
                 JOptionPane.YES_NO_CANCEL_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
@@ -406,50 +427,42 @@ public class MedicoView extends javax.swing.JFrame {
                     || jTextFieldEndereco.getText().isEmpty()
                     || jTextFieldEspecialidade.getText().isEmpty()
                     || jTextFieldCrm.getText().isEmpty()
-                    || jFormattedTextFieldCpf.getText().isEmpty()
-                    || jFormattedTextFieldTelefone.getText().isEmpty()) {
+                    || jFormattedTextFieldCpf.getText().equals("   .   .   -  ")
+                    || jFormattedTextFieldTelefone.getText().equals("(  )     -    ")) {
                 JOptionPane.showMessageDialog(this,
                         "Preencha todos os campos!",
                         "Erro: Informações Incompletas",
                         JOptionPane.ERROR_MESSAGE);
 
             } else {
-                if (jTableMedicos.getSelectedRow() != -1) {
-                    medicoController.update(
-                            (int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0),
-                            jTextFieldNome.getText(),
-                            jFormattedTextFieldCpf.getText(),
-                            jTextFieldEndereco.getText(),
-                            jFormattedTextFieldTelefone.getText(),
-                            jTextFieldCrm.getText(),
-                            jTextFieldEspecialidade.getText()
-                    );
+                if (validaCampos()) {
+                    if (jTableMedicos.getSelectedRow() != -1) {
+                        Medico medico = new Medico();
 
+                        medico = tableModel.getMedico(jTableMedicos.getSelectedRow());
+
+                        medicoController.update(
+                                medico.getIdMedico(),
+                                jTextFieldNome.getText(),
+                                jFormattedTextFieldCpf.getText(),
+                                jTextFieldEndereco.getText(),
+                                jFormattedTextFieldTelefone.getText(),
+                                jTextFieldCrm.getText(),
+                                jTextFieldEspecialidade.getText()
+                        );
+
+                        JOptionPane.showMessageDialog(this,
+                                "o Registro do médico foi alterado com sucesso!");
+                        this.limpaCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "Não foi possível alterar o registro do médico!");
+                    }
                     this.listaMedicos();
-
-                    JOptionPane.showMessageDialog(this,
-                            "Os dados foram atualizados com sucesso!",
-                            "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-
-                    jTextFieldNome.setText("");
-                    jFormattedTextFieldCpf.setText("");
-                    jTextFieldEndereco.setText("");
-                    jFormattedTextFieldTelefone.setText("");
-                    jTextFieldCrm.setText("");
-                    jTextFieldEspecialidade.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Selecione um médico para atualizar os dados!",
-                            "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } else if (confirma == JOptionPane.CANCEL_OPTION) {
-            jTextFieldNome.setText("");
-            jFormattedTextFieldCpf.setText("");
-            jTextFieldEndereco.setText("");
-            jFormattedTextFieldTelefone.setText("");
-            jTextFieldCrm.setText("");
-            jTextFieldEspecialidade.setText("");
+            this.limpaCampos();
         }
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
 
@@ -457,76 +470,26 @@ public class MedicoView extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         int confirma = JOptionPane.showConfirmDialog(null,
-                "Deseja remover este médico do sistema?",
-                "Alerta de exclusão!", JOptionPane.YES_NO_OPTION);
+                "Deseja remover o registro deste médico do sistema?",
+                "Alerta de exclusão de registro!", JOptionPane.YES_NO_OPTION);
 
         if (confirma == JOptionPane.YES_OPTION) {
             if (jTableMedicos.getSelectedRow() != -1) {
-                medicoController.delete((int) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0));
+                Medico medico = new Medico();
+                medico = tableModel.getMedico(jTableMedicos.getSelectedRow());
+                medicoController.delete(medico.getIdMedico());
 
                 this.listaMedicos();
 
-                JOptionPane.showMessageDialog(this,
-                        "O médico foi removido do sistema com sucesso!",
-                        "Sucesso!",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                jTextFieldNome.setText("");
-                jTextFieldCrm.setText("");
-                jTextFieldEndereco.setText("");
-                jTextFieldEspecialidade.setText("");
-                jFormattedTextFieldCpf.setText("");
-                jFormattedTextFieldTelefone.setText("");
             } else {
-                JOptionPane.showMessageDialog(null,
-                        "Selecione um medico para remover do sistema!",
-                        "Nenhum médico foi selecionado!",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Selecione um paciente para remover do sistema!",
+                        "Nenhum paciente foi selecionado!", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            jTextFieldNome.setText("");
-            jTextFieldCrm.setText("");
-            jTextFieldEndereco.setText("");
-            jTextFieldEspecialidade.setText("");
-            jFormattedTextFieldCpf.setText("");
-            jFormattedTextFieldTelefone.setText("");
+            this.limpaCampos();
         }
     }//GEN-LAST:event_jButtonRemoverActionPerformed
-
-    private void jComboBoxBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxBuscarActionPerformed
-        // TODO add your handling code here:
-
-        jTextFieldBuscar.setText("");
-
-        if (jComboBoxBuscar.getSelectedIndex() == 0) {
-            tableModel = new MedicoTableModel(medicoController.read());
-            jTableMedicos.setModel(tableModel);
-        }
-        jTextFieldBuscar.requestFocus();
-    }//GEN-LAST:event_jComboBoxBuscarActionPerformed
-
-    private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
-        // TODO add your handling code here:
-
-        String chave = jTextFieldBuscar.getText();
-
-        if (evt.getKeyChar() != '\b') {
-            chave = chave + evt.getKeyChar();
-        }
-
-        switch (jComboBoxBuscar.getSelectedIndex()) {
-            case 1:
-                tableModel = new MedicoTableModel(medicoController.searchMedicoNome(chave));
-                break;
-            case 2:
-                tableModel = new MedicoTableModel(medicoController.searchMedicoCPF(chave));
-                break;
-            case 3:
-                tableModel = new MedicoTableModel(medicoController.searchMedicoCRM(chave));
-                break;
-        }
-        jTableMedicos.setModel(tableModel);
-    }//GEN-LAST:event_jTextFieldBuscarKeyTyped
 
     private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
         // TODO add your handling code here:
@@ -542,6 +505,71 @@ public class MedicoView extends javax.swing.JFrame {
             viewPrincipal.setVisible(true);
         }
     }//GEN-LAST:event_jButtonSairActionPerformed
+
+    private void jButtonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRegistroActionPerformed
+        // TODO add your handling code here:
+
+        int confirma = JOptionPane.showConfirmDialog(null,
+                "Deseja sair desta sessão e acessar a sessão de registros?",
+                "Aviso", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+
+        }
+    }//GEN-LAST:event_jButtonRegistroActionPerformed
+
+    private void jComboBoxOpcoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxOpcoesActionPerformed
+        // TODO add your handling code here:
+
+        jTextFieldBuscar.setText("");
+
+        if (jComboBoxOpcoes.getSelectedIndex() == 0) {
+            tableModel = new MedicoTableModel(medicoController.read());
+            jTableMedicos.setModel(tableModel);
+        }
+        jTextFieldBuscar.requestFocus();
+    }//GEN-LAST:event_jComboBoxOpcoesActionPerformed
+
+    private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
+        // TODO add your handling code here:
+
+        String chave = jTextFieldBuscar.getText();
+        if (evt.getKeyChar() != '\b') {
+            chave = chave + evt.getKeyChar();
+        }
+
+        switch (jComboBoxOpcoes.getSelectedIndex()) {
+            case 1:
+                tableModel = new MedicoTableModel(medicoController.searchMedicoNome(chave));
+                break;
+            case 2:
+                tableModel = new MedicoTableModel(medicoController.searchMedicoCPF(chave));
+                break;
+            case 3:
+                tableModel = new MedicoTableModel(medicoController.searchMedicoCRM(chave));
+                break;
+        }
+        jTableMedicos.setModel(tableModel);
+    }//GEN-LAST:event_jTextFieldBuscarKeyTyped
+
+    private void jTableMedicosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMedicosMouseClicked
+        // TODO add your handling code here:
+
+        if (jTableMedicos.getSelectedRow() != -1) {
+            jTextFieldNome.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 0));
+            jFormattedTextFieldCpf.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 1));
+            jTextFieldEndereco.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 2));
+            jFormattedTextFieldTelefone.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 3));
+            jTextFieldCrm.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 4));
+            jTextFieldEspecialidade.setText((String) jTableMedicos.getValueAt(jTableMedicos.getSelectedRow(), 5));
+        }
+    }//GEN-LAST:event_jTableMedicosMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+
+        this.listaMedicos();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -581,9 +609,10 @@ public class MedicoView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionar;
     private javax.swing.JButton jButtonAtualizar;
+    private javax.swing.JButton jButtonRegistro;
     private javax.swing.JButton jButtonRemover;
     private javax.swing.JButton jButtonSair;
-    private javax.swing.JComboBox<String> jComboBoxBuscar;
+    private javax.swing.JComboBox<String> jComboBoxOpcoes;
     private javax.swing.JFormattedTextField jFormattedTextFieldCpf;
     private javax.swing.JFormattedTextField jFormattedTextFieldTelefone;
     private javax.swing.JLabel jLabel1;
@@ -593,7 +622,9 @@ public class MedicoView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelCadastro;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableMedicos;

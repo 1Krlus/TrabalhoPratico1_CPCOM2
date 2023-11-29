@@ -67,6 +67,7 @@ public class MedicoDAO {
 
             while (rs.next()) {
                 Medico medico = new Medico();
+                medico.setIdMedico(rs.getInt("idmedico"));
                 medico.setNome(rs.getString("nome"));
                 medico.setCpf(rs.getString("cpf"));
                 medico.setEndereco(rs.getString("endereco"));
@@ -87,8 +88,7 @@ public class MedicoDAO {
     public boolean update(Medico medico) {
         PreparedStatement stmt = null;
 
-        String sql = "UPDATE medico SET   nome = ?, cpf = ?, endereco = ?,"
-                + " telefone = ?, crm = ?, especialidade = ? WHERE idmedico = ?";
+        String sql = "UPDATE medico SET nome = ?, cpf = ?, endereco = ?, telefone = ?, crm = ?, especialidade = ? WHERE idmedico = ?";
 
         try {
             stmt = connect.prepareStatement(sql);

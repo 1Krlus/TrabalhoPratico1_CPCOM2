@@ -52,4 +52,9 @@ public class Paciente extends Pessoa {
     public void setIdPaciente(int idPaciente) {
         this.idPaciente = idPaciente;
     }
+    
+    @Override
+    public String toString() {
+        return nome;
+    }
 }

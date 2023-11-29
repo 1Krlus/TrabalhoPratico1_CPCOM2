@@ -10,8 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.bean.Paciente;
 import model.bean.PlanoSaude;
@@ -113,7 +111,6 @@ public class PacienteDAO {
     }
     
     public boolean delete(Paciente paciente) {
-        Connection connect =   connection.ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         String sql = "DELETE FROM paciente WHERE idpaciente = ?";

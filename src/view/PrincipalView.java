@@ -4,6 +4,8 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Carlos
@@ -29,10 +31,13 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuMédicos = new javax.swing.JMenu();
         jMenuItemCadastroMedicos = new javax.swing.JMenuItem();
+        jMenuItemPrescricoes = new javax.swing.JMenuItem();
         jMenuPacientes = new javax.swing.JMenu();
         jMenuItemCadastroPacientes = new javax.swing.JMenuItem();
         jMenuPlanosSaude = new javax.swing.JMenu();
         jMenuItemCadastroPSaude = new javax.swing.JMenuItem();
+        jMenuSair = new javax.swing.JMenu();
+        jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -40,7 +45,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuMédicos.setText("Médicos");
 
         jMenuItemCadastroMedicos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/medico24px.png"))); // NOI18N
-        jMenuItemCadastroMedicos.setText("Cadastro de Médicos");
+        jMenuItemCadastroMedicos.setText("Médicos");
         jMenuItemCadastroMedicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCadastroMedicosActionPerformed(evt);
@@ -48,13 +53,22 @@ public class PrincipalView extends javax.swing.JFrame {
         });
         jMenuMédicos.add(jMenuItemCadastroMedicos);
 
+        jMenuItemPrescricoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/prescricao24px.png"))); // NOI18N
+        jMenuItemPrescricoes.setText("Prescrições");
+        jMenuItemPrescricoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrescricoesActionPerformed(evt);
+            }
+        });
+        jMenuMédicos.add(jMenuItemPrescricoes);
+
         jMenuBar1.add(jMenuMédicos);
 
         jMenuPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/paciente32px.png"))); // NOI18N
         jMenuPacientes.setText("Pacientes");
 
         jMenuItemCadastroPacientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/paciente24px.png"))); // NOI18N
-        jMenuItemCadastroPacientes.setText("Cadastro de Pacientes");
+        jMenuItemCadastroPacientes.setText("Pacientes");
         jMenuItemCadastroPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCadastroPacientesActionPerformed(evt);
@@ -68,7 +82,7 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuPlanosSaude.setText("Planos de Saúde");
 
         jMenuItemCadastroPSaude.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/planos32px.png"))); // NOI18N
-        jMenuItemCadastroPSaude.setText("Cadastro de Planos de Saúde");
+        jMenuItemCadastroPSaude.setText("Planos de Saúde");
         jMenuItemCadastroPSaude.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCadastroPSaudeActionPerformed(evt);
@@ -77,6 +91,20 @@ public class PrincipalView extends javax.swing.JFrame {
         jMenuPlanosSaude.add(jMenuItemCadastroPSaude);
 
         jMenuBar1.add(jMenuPlanosSaude);
+
+        jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/technical-support.png"))); // NOI18N
+        jMenuSair.setText("Ferramentas");
+
+        jMenuItemSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/sair.png"))); // NOI18N
+        jMenuItemSair.setText("Sair");
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
+        jMenuSair.add(jMenuItemSair);
+
+        jMenuBar1.add(jMenuSair);
 
         setJMenuBar(jMenuBar1);
 
@@ -97,30 +125,51 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void jMenuItemCadastroMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroMedicosActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
         MedicoView medicoView = new MedicoView(null);
         medicoView.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadastroMedicosActionPerformed
 
     private void jMenuItemCadastroPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroPacientesActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
         PacienteView pacienteView = new PacienteView();
         pacienteView.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadastroPacientesActionPerformed
 
     private void jMenuItemCadastroPSaudeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroPSaudeActionPerformed
         // TODO add your handling code here:
-        
+
         this.dispose();
-        
+
         PlanoSaudeView pSaudeView = new PlanoSaudeView();
         pSaudeView.setVisible(true);
     }//GEN-LAST:event_jMenuItemCadastroPSaudeActionPerformed
+
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSairActionPerformed
+        // TODO add your handling code here:
+
+        int confirma = JOptionPane.showConfirmDialog(null,
+                "Deseja fechar o aplicativo?", "Aviso!",
+                JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            this.dispose();
+        }
+    }//GEN-LAST:event_jMenuItemSairActionPerformed
+
+    private void jMenuItemPrescricoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrescricoesActionPerformed
+        // TODO add your handling code here:
+        
+        this.dispose();
+        
+        PrescricaoView viewPrescricao = new PrescricaoView();
+        viewPrescricao.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPrescricoesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,8 +211,11 @@ public class PrincipalView extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCadastroMedicos;
     private javax.swing.JMenuItem jMenuItemCadastroPSaude;
     private javax.swing.JMenuItem jMenuItemCadastroPacientes;
+    private javax.swing.JMenuItem jMenuItemPrescricoes;
+    private javax.swing.JMenuItem jMenuItemSair;
     private javax.swing.JMenu jMenuMédicos;
     private javax.swing.JMenu jMenuPacientes;
     private javax.swing.JMenu jMenuPlanosSaude;
+    private javax.swing.JMenu jMenuSair;
     // End of variables declaration//GEN-END:variables
 }

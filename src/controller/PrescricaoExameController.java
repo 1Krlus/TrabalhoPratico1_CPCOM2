@@ -31,10 +31,10 @@ public class PrescricaoExameController {
     public boolean update(int idPrescricao, String data, Paciente paciente, Medico medico, double valorTotal) {
         PrescricaoExame pExame = new PrescricaoExame();
         
-        pExame.setIdPrescricao(idPrescricao);
         pExame.setPaciente(paciente);
         pExame.setMedico(medico);
         pExame.setValorTotal(valorTotal);
+        pExame.setIdPrescricao(idPrescricao);
         
         PrescricaoExameDAO pExameDAO = new PrescricaoExameDAO();
         return pExameDAO.update(pExame);

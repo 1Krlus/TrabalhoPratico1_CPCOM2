@@ -14,6 +14,17 @@ public class PrescricaoExame {
     private Paciente paciente;
     private Medico medico;
     double valorTotal;
+    
+    public PrescricaoExame() {
+        
+    }
+    
+    public PrescricaoExame(String data, Medico medico, Paciente paciente, Double valorTotal) {
+        this.data = data;
+        this.medico = medico;
+        this.paciente = paciente;
+        this.valorTotal = valorTotal;
+    }
 
     public int getIdPrescricao() {
         return idPrescricao;

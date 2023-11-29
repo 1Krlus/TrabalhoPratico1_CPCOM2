@@ -45,9 +45,9 @@ public class PrescricaoTableModel extends AbstractTableModel {
                 return pExame.getData();
             case 1:
                 return pExame.getPaciente().getNome();
-            case 3:
+            case 2:
                 return pExame.getMedico().getNome();
-            case 4:
+            case 3:
                 return pExame.getValorTotal();
             default:
                 return "";

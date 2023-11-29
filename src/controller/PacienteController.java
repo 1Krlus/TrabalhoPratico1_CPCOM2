@@ -37,6 +37,7 @@ public class PacienteController {
     public boolean update(int idPaciente, String nome, String cpf, String endereco, String telefone, String dataNascimento,
             PlanoSaude planoSaude) {
         Paciente paciente = new Paciente();
+        
         paciente.setIdPaciente(idPaciente);
         paciente.setNome(nome);
         paciente.setCpf(cpf);

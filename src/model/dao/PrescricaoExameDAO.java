@@ -10,8 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.bean.Medico;
 import model.bean.Paciente;
 import model.bean.PrescricaoExame;
@@ -57,7 +55,7 @@ public class PrescricaoExameDAO {
 
         ArrayList<PrescricaoExame> listaPrescricoes = new ArrayList<>();
 
-        String sql = "SELECT * FROM prescricaoexame ORDER BY idprescricao";
+        String sql = "SELECT * FROM prescricaoview ORDER BY prescid";
 
         try {
             stmt = connect.prepareStatement(sql);
@@ -65,15 +63,18 @@ public class PrescricaoExameDAO {
             
             while (rs.next()) {
                 PrescricaoExame pExame = new PrescricaoExame();
-                pExame.setData(rs.getString("data"));
+                pExame.setData(rs.getString("prescdata"));
+                pExame.setValorTotal(rs.getDouble("prescvtotal"));
                 
                 Paciente paciente = new Paciente();
-                paciente.setIdPaciente(rs.getInt("pid"));
+                paciente.setNome(rs.getString("pnome"));
                 pExame.setPaciente(paciente);
                 
                 Medico medico = new Medico();
-                medico.setIdMedico(rs.getInt("mid"));
+                medico.setNome(rs.getString("mnome"));
                 pExame.setMedico(medico);
+                
+                listaPrescricoes.add(pExame);
             }
         } catch (SQLException ex) {
             System.out.println("Erro: " + ex);
@@ -86,16 +87,16 @@ public class PrescricaoExameDAO {
     public boolean update(PrescricaoExame pExame) {
         PreparedStatement stmt = null;
         
-        String sql = "UPDATE prescricaoexame SET idprescricao = ?, data =?, idpaciente = ?, idmedico = ?, valortotal = ? WHERE idprescricao";
+        String sql = "UPDATE prescricaoexame SET data = ?, idpaciente = ?, idmedico = ?, valortotal = ? WHERE idprescricao = ?";
         
         try {
             stmt = connect.prepareStatement(sql);
             
-            stmt.setInt(0, pExame.getIdPrescricao());
             stmt.setString(1, pExame.getData());
             stmt.setInt(2, pExame.getPaciente().getIdPaciente());
             stmt.setInt(3, pExame.getMedico().getIdMedico());
             stmt.setDouble(4, pExame.getValorTotal());
+            stmt.setInt(5, pExame.getIdPrescricao());
             
             stmt.executeUpdate();
             
