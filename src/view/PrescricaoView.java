@@ -53,6 +53,10 @@ public class PrescricaoView extends javax.swing.JFrame {
         jButtonExcluir = new javax.swing.JButton();
         jButtonImprimir = new javax.swing.JButton();
         jButtonSair = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBoxBuscar = new javax.swing.JComboBox<>();
+        jTextFieldBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -165,6 +169,11 @@ public class PrescricaoView extends javax.swing.JFrame {
 
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-excluir-24.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/impressora.png"))); // NOI18N
         jButtonImprimir.setText("Imprimir");
@@ -207,6 +216,42 @@ public class PrescricaoView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel1.setText("Pesquisar por:");
+
+        jComboBoxBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nenhum", "Médico", "Paciente" }));
+
+        jTextFieldBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldBuscarKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBoxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTextFieldBuscar)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -217,10 +262,11 @@ public class PrescricaoView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -231,10 +277,12 @@ public class PrescricaoView extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -369,7 +417,7 @@ public class PrescricaoView extends javax.swing.JFrame {
 
         if (confirma == JOptionPane.YES_OPTION) {
             if (jTextFieldValorTotal.getText().isEmpty()
-                    || jFormattedTextFieldData.getText().equals("  /  /    /")) {
+                    || jFormattedTextFieldData.getText().equals("  /  /    ")) {
                 JOptionPane.showMessageDialog(this,
                         "Preencha todos os campos!",
                         "Erro: Informações incompletas!",
@@ -393,6 +441,8 @@ public class PrescricaoView extends javax.swing.JFrame {
                     );
 
                     this.listaPrescricoes();
+                    this.listaMedicos();
+                    this.listaPacientes();
 
                     JOptionPane.showMessageDialog(this,
                             "O registro da prescrição de exame foi atualizado com sucesso!",
@@ -408,6 +458,57 @@ public class PrescricaoView extends javax.swing.JFrame {
             this.limpaCampos();
         }
     }//GEN-LAST:event_jButtonAtualizarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        
+       int confirma = JOptionPane.showConfirmDialog(null,
+                "Deseja remover este paciente do sistema?",
+                "Confirmação de exclusão!", JOptionPane.YES_NO_OPTION);
+       
+       if (confirma == JOptionPane.YES_OPTION) {
+           if (jTablePrescricoes.getSelectedRow() != -1) {
+               PrescricaoExame pExame = new PrescricaoExame();
+               pExame = tableModel.getPrescricaoExame(jTablePrescricoes.getSelectedRow());
+               pExameController.delete(pExame.getIdPrescricao());
+               
+               this.listaPrescricoes();
+               
+               JOptionPane.showMessageDialog(this, 
+                       "A prescrição de exame foi removida do sistema com sucesso!",
+                       "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+               
+               this.limpaCampos();
+           } else {
+               JOptionPane.showMessageDialog(this, 
+                       "Selecione uma prescrição de exame para remover do sistema!",
+                       "Nenhuma precrição de exame foi selecionada!", 
+                       JOptionPane.ERROR_MESSAGE);
+           }
+       } else {
+           this.limpaCampos();
+       }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jTextFieldBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBuscarKeyTyped
+        // TODO add your handling code here:
+        
+        String chave = jTextFieldBuscar.getText();
+        
+        if (evt.getKeyChar() != '\b') {
+            chave = chave + evt.getKeyChar();
+        }
+        
+        switch (jComboBoxBuscar.getSelectedIndex()) {
+            case 1:
+                tableModel = new PrescricaoTableModel(pExameController.searchMedicoNome(chave));
+                break;
+            case 2:
+                tableModel = new PrescricaoTableModel(pExameController.searchPacienteNome(chave));
+                break;
+        }
+        jTablePrescricoes.setModel(tableModel);
+    }//GEN-LAST:event_jTextFieldBuscarKeyTyped
 
     /**
      * @param args the command line arguments
@@ -450,9 +551,11 @@ public class PrescricaoView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonImprimir;
     private javax.swing.JButton jButtonSair;
+    private javax.swing.JComboBox<String> jComboBoxBuscar;
     private javax.swing.JComboBox<Object> jComboBoxMedicos;
     private javax.swing.JComboBox<Object> jComboBoxPacientes;
     private javax.swing.JFormattedTextField jFormattedTextFieldData;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelData;
     private javax.swing.JLabel jLabelMedico;
     private javax.swing.JLabel jLabelPaciente;
@@ -460,8 +563,10 @@ public class PrescricaoView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelValorTotal;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePrescricoes;
+    private javax.swing.JTextField jTextFieldBuscar;
     private javax.swing.JTextField jTextFieldValorTotal;
     // End of variables declaration//GEN-END:variables
 }

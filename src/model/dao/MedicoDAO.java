@@ -54,6 +54,7 @@ public class MedicoDAO {
     }
 
     public ArrayList<Medico> read() {
+        
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -86,6 +87,7 @@ public class MedicoDAO {
     }
 
     public boolean update(Medico medico) {
+        
         PreparedStatement stmt = null;
 
         String sql = "UPDATE medico SET nome = ?, cpf = ?, endereco = ?, telefone = ?, crm = ?, especialidade = ? WHERE idmedico = ?";
@@ -114,7 +116,6 @@ public class MedicoDAO {
     }
 
     public boolean delete(Medico medico) {
-        Connection connect = connection.ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
 
         String sql = "DELETE FROM medico WHERE idmedico = ?";

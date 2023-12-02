@@ -31,10 +31,11 @@ public class PrescricaoExameController {
     public boolean update(int idPrescricao, String data, Paciente paciente, Medico medico, double valorTotal) {
         PrescricaoExame pExame = new PrescricaoExame();
         
+        pExame.setIdPrescricao(idPrescricao);
+        pExame.setData(data);
         pExame.setPaciente(paciente);
         pExame.setMedico(medico);
         pExame.setValorTotal(valorTotal);
-        pExame.setIdPrescricao(idPrescricao);
         
         PrescricaoExameDAO pExameDAO = new PrescricaoExameDAO();
         return pExameDAO.update(pExame);
@@ -51,5 +52,15 @@ public class PrescricaoExameController {
         
         PrescricaoExameDAO pExameDAO = new PrescricaoExameDAO();
         return pExameDAO.delete(pExame);
+    }
+    
+    public ArrayList<PrescricaoExame> searchMedicoNome(String nome) {
+        PrescricaoExameDAO pExameDAO = new PrescricaoExameDAO();
+        return pExameDAO.searchMedicoNome(nome);
+    }
+    
+    public ArrayList<PrescricaoExame> searchPacienteNome(String nome) {
+        PrescricaoExameDAO pExameDAO = new PrescricaoExameDAO();
+        return pExameDAO.searchPacienteNome(nome);
     }
 }

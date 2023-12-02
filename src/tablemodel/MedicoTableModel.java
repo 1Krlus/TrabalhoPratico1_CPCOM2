@@ -63,7 +63,7 @@ public class MedicoTableModel extends AbstractTableModel {
         return colunas[column];
     }
     
-    public Medico getMedico( int linha) {
+    public Medico getMedico ( int linha) {
         if (linha >= listaMedicos.size()) {
             return null;
         }

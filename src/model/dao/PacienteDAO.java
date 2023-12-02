@@ -132,6 +132,7 @@ public class PacienteDAO {
     }
     
     public ArrayList<Paciente> searchPacienteNome(String nome) {
+       
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
@@ -160,7 +161,8 @@ public class PacienteDAO {
                 listaPacientes.add(paciente);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao ler pacientes!", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao ler pacientes!", 
+                    "Erro", JOptionPane.ERROR_MESSAGE);
         } finally {
             ConnectionFactory.closeConnection(connect, stmt, rs);
         }

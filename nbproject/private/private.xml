@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/view/PrescricaoView.java</file>
-            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/model/dao/PrescricaoExameDAO.java</file>
-            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/view/PacienteView.java</file>
-            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/model/dao/PacienteDAO.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/tablemodel/ExameTableModel.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/view/MedicoView.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/tablemodel/MedicoTableModel.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/view/ExameView.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/controller/ExameController.java</file>
+            <file>file:/C:/Users/Carlos/Documents/Comercial%202/TrabalhoPratico/src/model/dao/ExameDAO.java</file>
         </group>
     </open-files>
 </project-private>
